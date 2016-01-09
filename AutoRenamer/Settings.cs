@@ -41,7 +41,7 @@ namespace AutoRenamer
        
 
             logger.Info($"Settings Loaded: \n "
-                        + $"extensions: {this.Extensions} \n"
+                        + $"extensions: {String.Join(" ",this.Extensions)} \n"
                         + $"sourcePath: {this.sourcePath} \n"
                         + $"moviesPath: {this.moviesPath} \n"
                         + $"seriesPath: {this.seriesPath} \n"
@@ -53,6 +53,7 @@ namespace AutoRenamer
                         + $"seriesDB: {this.seriesDB} \n"
                         + $"moviesLang: {this.moviesLang} \n"
                         + $"seriesLang: {this.seriesLang} \n"
+                        + $"seriesIdentifierRegex: {this.seriesIdentifierRegex} \n"
                         + $"sleep: {this.sleep} \n"
                 );
         }

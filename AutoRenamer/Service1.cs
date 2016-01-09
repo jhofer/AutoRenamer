@@ -16,7 +16,7 @@ namespace AutoRenamer
 {
     public partial class Service1 : ServiceBase
     {
-        private bool run;
+        private bool run =true;
 
 
         public Service1()

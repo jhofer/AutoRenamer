@@ -15,12 +15,13 @@ namespace AutoRenamer
         private readonly IFileBot seriesFileBot;
         private readonly ISettings settings;
 
+        private List<string> irgnoredPaths = new List<string>(); 
 
         public Renamer()
         {
             this.logger = new Logger();
             this.settings = new Settings(logger);
-            this.fileSearcher = new FileSearcher(settings);
+            this.fileSearcher = new FileSearcher(settings, logger);
             this.movieFileBot = new FileBot(settings, logger, true);
             this.seriesFileBot = new FileBot(settings, logger, false);
             this.cleaner = new Cleaner(settings, fileSearcher, logger);
@@ -32,6 +33,7 @@ namespace AutoRenamer
 
         public void Run()
         {
+            logger.Info("Start Renaming...");
             var filePaths = fileSearcher.GetFilePaths(settings.SourcePath, settings.Extensions);
             var renamings = new List<Renaming>();
             Rename(filePaths, movieFileBot, renamings, settings.MoviePath);
@@ -45,6 +47,7 @@ namespace AutoRenamer
                 builder.Append($"{renaming} \n");
             }
             logger.Info(builder.ToString());
+            logger.Info("Renaming done...");
         }
 
         private void Rename(List<string> filePaths, IFileBot fileBot,
@@ -53,15 +56,23 @@ namespace AutoRenamer
             foreach (var filePath in filePaths)
             {
                 var newFileName = "";
-                if (fileBot.Rename(filePath, out newFileName))
+                if (!irgnoredPaths.Contains(filePath))
                 {
-                    var renaming = pathGenerator.GenerateNewPath(filePath, newFileName, dropfolder);
-                    archiver.ArchiveExisting(renaming.NewPath);
-                    if (fileMover.Move(renaming.RenamedPath, renaming.NewPath))
+                    if (fileBot.Rename(filePath, out newFileName))
                     {
-                        renamings.Add(renaming);
+                        var renaming = pathGenerator.GenerateNewPath(filePath, newFileName, dropfolder);
+                        archiver.ArchiveExisting(renaming.NewPath);
+                        if (fileMover.Move(renaming.RenamedPath, renaming.NewPath))
+                        {
+                            renamings.Add(renaming);
+                        }
+                    }
+                    else
+                    {
+                        irgnoredPaths.Add(filePath);
                     }
                 }
+               
             }
         }
     }

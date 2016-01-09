@@ -10,10 +10,12 @@ namespace AutoRenamer
     class FileSearcher : IFileSearcher
     {
         private ISettings settings;
+        private ILogger logger;
 
-        public FileSearcher(ISettings settings)
+        public FileSearcher(ISettings settings, ILogger logger)
         {
             this.settings = settings;
+            this.logger = logger;
         }
 
         public List<string> GetEmptyDirs(string root)
@@ -24,19 +26,25 @@ namespace AutoRenamer
         private List<string> EmptyDirs(string root, bool isFirst)
         {
             List<string> emptyDirs = new List<string>();
-            if (Directory.GetFiles(root).Any() || Directory.GetDirectories(root).Any())
+            try
             {
-                List<string> alldirs = Directory.GetDirectories(root).ToList();
-                foreach (var dir in alldirs)
+                if (Directory.GetFiles(root).Any() || Directory.GetDirectories(root).Any())
                 {
-                    emptyDirs.AddRange(EmptyDirs(dir,false));
+                    List<string> alldirs = Directory.GetDirectories(root).ToList();
+                    foreach (var dir in alldirs)
+                    {
+                        emptyDirs.AddRange(EmptyDirs(dir, false));
+                    }
+                }
+                else if (!isFirst)
+                {
+                    emptyDirs.Add(root);
                 }
             }
-            else if (!isFirst) 
+            catch (Exception e)
             {
-                emptyDirs.Add(root);
+                logger.Error(e);
             }
-
             return emptyDirs;
         }
 
@@ -45,15 +53,21 @@ namespace AutoRenamer
             List<string> filePaths = new List<string>();
             if (IsNoDropFolder(root))
             {
-
-                var directories = Directory.GetDirectories(root);
-                foreach (var extension in extensions)
+                try
                 {
-                    filePaths.AddRange(Directory.GetFiles(root, extension));
+                    var directories = Directory.GetDirectories(root);
+                    foreach (var extension in extensions)
+                    {
+                        filePaths.AddRange(Directory.GetFiles(root, extension));
+                    }
+                    foreach (var dir in directories)
+                    {
+                        filePaths.AddRange(GetFilePaths(dir, extensions));
+                    }
                 }
-                foreach (var dir in directories)
+                catch (Exception e)
                 {
-                    filePaths.AddRange(GetFilePaths(dir, extensions));
+                    logger.Error(e);
                 }
             }
             return filePaths;

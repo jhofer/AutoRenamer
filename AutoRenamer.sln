@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoRenamerTest", "AutoRena
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApplication", "ConsoleApplication\ConsoleApplication.csproj", "{B329A207-DBFF-4FD3-998D-F978A1E7AC46}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{3121EA69-98BA-41A4-9A35-15E352C7410D}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{D2F01179-4FCA-47E5-A0DF-2983C39C1CAE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,8 @@ Global
 		{B329A207-DBFF-4FD3-998D-F978A1E7AC46}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B329A207-DBFF-4FD3-998D-F978A1E7AC46}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B329A207-DBFF-4FD3-998D-F978A1E7AC46}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3121EA69-98BA-41A4-9A35-15E352C7410D}.Debug|Any CPU.ActiveCfg = Debug
-		{3121EA69-98BA-41A4-9A35-15E352C7410D}.Debug|Any CPU.Build.0 = Debug
-		{3121EA69-98BA-41A4-9A35-15E352C7410D}.Release|Any CPU.ActiveCfg = Release
-		{3121EA69-98BA-41A4-9A35-15E352C7410D}.Release|Any CPU.Build.0 = Release
+		{D2F01179-4FCA-47E5-A0DF-2983C39C1CAE}.Debug|Any CPU.ActiveCfg = Debug
+		{D2F01179-4FCA-47E5-A0DF-2983C39C1CAE}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
