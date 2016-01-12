@@ -20,35 +20,54 @@ namespace AutoRenamer
             this.logger = logger;
         }
 
+        public void Cleanup(Renaming renaming)
+        {
+            DeleteDir(Path.GetDirectoryName(renaming.RenamedPath));
+        }
+
         public void Cleanup()
         {
+
+  
+
+  
             //cleanup
             var emptyDirs = searcher.GetEmptyDirs(settings.SourcePath);
             while (emptyDirs.Any())
             {
                 foreach (var emptyDir in emptyDirs)
                 {
-                    try
-                    {
-
-                        if (IsRoot(emptyDir))
-                        {
-                            logger.Info($"Delete empty dir {emptyDir}");
-                            Directory.Delete(emptyDir);
-                        }
-
-                    }
-                    catch (Exception e)
-                    {
-                        logger.Error(e);
-                    }
+                    DeleteDir(emptyDir);
 
                 }
                 emptyDirs = searcher.GetEmptyDirs(settings.SourcePath);
             }
+
+
         }
 
-        private bool IsRoot(string emptyDir)
+        private void DeleteDir(string path)
+        {
+            try
+            {
+                if (IsNotRoot(path))
+                {
+                    if (Directory.Exists(path))
+                    {
+                        logger.Info($"Delete empty dir {path}");
+                        Directory.Delete(path, true);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                logger.Error(e);
+            }
+
+
+        }
+
+        private bool IsNotRoot(string emptyDir)
         {
             return !(settings.ArchivePath.Equals(emptyDir) || settings.MoviePath.Equals(emptyDir) || settings.SeriesPath.Equals(emptyDir));
         }

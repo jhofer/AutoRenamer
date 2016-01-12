@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace AutoRenamer
@@ -36,18 +38,36 @@ namespace AutoRenamer
             logger.Info("Start Renaming...");
             var filePaths = fileSearcher.GetFilePaths(settings.SourcePath, settings.Extensions);
             var renamings = new List<Renaming>();
-            Rename(filePaths, movieFileBot, renamings, settings.MoviePath);
             cleaner.Cleanup();
+            Rename(filePaths, movieFileBot, renamings, settings.MoviePath);
+            LogRenaming(renamings);
+            cleaner.Cleanup();
+          
             Rename(filePaths, seriesFileBot, renamings, settings.SeriesPath);
+            LogRenaming(renamings);
             cleaner.Cleanup();
 
-            StringBuilder builder = new StringBuilder();
-            foreach (var renaming in renamings)
-            {
-                builder.Append($"{renaming} \n");
-            }
-            logger.Info(builder.ToString());
+
+            LogRenaming(renamings);
             logger.Info("Renaming done...");
+        }
+
+        private void LogRenaming(List<Renaming> renamings)
+        {
+            if (renamings.Any())
+            {
+                StringBuilder builder = new StringBuilder();
+                foreach (var renaming in renamings)
+                {
+                    if (renaming != null)
+                    {
+                        builder.Append($"{renaming} {Environment.NewLine}");
+                    }
+                 
+                }
+                logger.Info(builder.ToString());
+            }
+           
         }
 
         private void Rename(List<string> filePaths, IFileBot fileBot,
@@ -65,6 +85,7 @@ namespace AutoRenamer
                         if (fileMover.Move(renaming.RenamedPath, renaming.NewPath))
                         {
                             renamings.Add(renaming);
+                            cleaner.Cleanup(renaming);
                         }
                     }
                     else

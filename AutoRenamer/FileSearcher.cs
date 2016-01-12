@@ -75,7 +75,7 @@ namespace AutoRenamer
 
         private bool IsNoDropFolder(string root)
         {
-            return !root.Equals(settings.ArchivePath) && !root.Equals(settings.MoviePath) && !root.Equals(settings.SeriesPath);
+            return !(settings.ArchivePath.Equals(root) || settings.MoviePath.Equals(root) || settings.SeriesPath.Equals(root));
         }
     }
 }
