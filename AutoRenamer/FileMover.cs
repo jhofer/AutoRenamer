@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Delimon.Win32.IO;
 
 namespace AutoRenamer
 {
@@ -20,9 +16,9 @@ namespace AutoRenamer
         {
             try
             {
-    
                 var folderPath = Path.GetDirectoryName(to);
-                Directory.CreateDirectory(folderPath);
+                if (!Directory.Exists(folderPath))
+                    Directory.CreateDirectory(folderPath);
                 File.Move(from, to);
                 return true;
             }
@@ -31,9 +27,6 @@ namespace AutoRenamer
                 logger.Error(e);
                 return false;
             }
-
         }
-
-
     }
 }

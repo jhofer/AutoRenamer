@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO;
+
 using System.Text;
 using System.Text.RegularExpressions;
+using Delimon.Win32.IO;
 
 namespace AutoRenamer
 {

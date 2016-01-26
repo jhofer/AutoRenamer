@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Delimon.Win32.IO;
 
 namespace AutoRenamer
 {
- 
     class Archiver : IArchiver
     {
-        private readonly ISettings settings;
         private readonly IFileMover fileMover;
+        private readonly ISettings settings;
 
         public Archiver(ISettings settings, IFileMover fileMover)
         {
@@ -24,10 +17,10 @@ namespace AutoRenamer
         {
             if (File.Exists(filePath))
             {
-                
                 var fileName = Path.GetFileName(filePath);
                 var archiveFilePath = settings.ArchivePath + "\\" + fileName;
-                Directory.CreateDirectory(settings.ArchivePath);
+                if (!Directory.Exists(settings.ArchivePath))
+                    Directory.CreateDirectory(settings.ArchivePath);
                 if (File.Exists(archiveFilePath))
                 {
                     File.Delete(archiveFilePath);
@@ -35,6 +28,5 @@ namespace AutoRenamer
                 fileMover.Move(filePath, archiveFilePath);
             }
         }
-
     }
 }

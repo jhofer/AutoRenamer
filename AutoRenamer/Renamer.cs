@@ -17,7 +17,7 @@ namespace AutoRenamer
         private readonly IFileBot seriesFileBot;
         private readonly ISettings settings;
 
-        private List<string> irgnoredPaths = new List<string>(); 
+        private readonly List<string> irgnoredPaths = new List<string>(); 
 
         public Renamer()
         {

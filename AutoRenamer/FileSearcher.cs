@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
+using Delimon.Win32.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace AutoRenamer
 {
     class FileSearcher : IFileSearcher
     {
-        private ISettings settings;
-        private ILogger logger;
+        private readonly ISettings settings;
+        private readonly ILogger logger;
 
         public FileSearcher(ISettings settings, ILogger logger)
         {
