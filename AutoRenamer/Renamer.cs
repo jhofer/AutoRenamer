@@ -36,21 +36,28 @@ namespace AutoRenamer
 
         public void Run()
         {
-            logger.Info("Start Renaming...");
-            var filePaths = fileSearcher.GetFilePaths(settings.SourcePath, settings.Extensions);
-            var renamings = new List<Renaming>();
-            cleaner.Cleanup();
-            Rename(filePaths, movieFileBot, renamings, settings.MoviePath,this.irgnoredMoviePaths);
-            LogRenaming(renamings);
-            cleaner.Cleanup();
-          
-            Rename(filePaths, seriesFileBot, renamings, settings.SeriesPath, this.irgnoredSeriesPaths);
-            LogRenaming(renamings);
-            cleaner.Cleanup();
+            try
+            {
+                logger.Info("Start Renaming...");
+                var filePaths = fileSearcher.GetFilePaths(settings.SourcePath, settings.Extensions);
+                var renamings = new List<Renaming>();
+                cleaner.Cleanup();
+                Rename(filePaths, movieFileBot, renamings, settings.MoviePath, this.irgnoredMoviePaths);
+                LogRenaming(renamings);
+                cleaner.Cleanup();
+
+                Rename(filePaths, seriesFileBot, renamings, settings.SeriesPath, this.irgnoredSeriesPaths);
+                LogRenaming(renamings);
+                cleaner.Cleanup();
 
 
-            LogRenaming(renamings);
-            logger.Info("Renaming done...");
+                LogRenaming(renamings);
+                logger.Info("Renaming done...");
+            }
+            catch (Exception e)
+            {
+                logger.Error(e);
+            }
         }
 
         private void LogRenaming(List<Renaming> renamings)
@@ -76,7 +83,7 @@ namespace AutoRenamer
         {
             foreach (var filePath in filePaths)
             {
-                var newFileName = "";
+                var newFileName = String.Empty;
                 if (!irgnoredPaths.Contains(filePath))
                 {
                     if (fileBot.Rename(filePath, out newFileName))
