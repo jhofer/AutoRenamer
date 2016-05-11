@@ -1,4 +1,5 @@
 ﻿using AutoRenamer;
+using Delimon.Win32.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTestProject1
@@ -50,5 +51,12 @@ namespace UnitTestProject1
             Assert.AreEqual(@"C:\movies\21 Gramm German 2003 AC3 DVDRip XViD iNTERNAL-VhV\21 Gramm German 2003 AC3 DVDRip XViD iNTERNAL-VhV.avi",
                 renaming.OrginalPath);
         }
+
+        [TestMethod]
+        public void CreateDirectory()
+        {
+          FileMover.CreateDir("C:\\Serien\\Lucifier\\yolo\\blaba");
+        }
+
     }
 }

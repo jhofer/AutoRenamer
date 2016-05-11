@@ -35,6 +35,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Delimon.Win32.IO, Version=4.0.4764.1936, Culture=neutral, PublicKeyToken=6f601db60ebd9657, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\AutoRenamer\dlls\Delimon.Win32.IO.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Choose>

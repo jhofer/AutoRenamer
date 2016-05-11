@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Linq;
 using Delimon.Win32.IO;
 
 namespace AutoRenamer
 {
-    class FileMover : IFileMover
+    public class FileMover : IFileMover
     {
         private readonly ILogger logger;
 
@@ -18,7 +19,7 @@ namespace AutoRenamer
             {
                 var folderPath = Path.GetDirectoryName(to);
                 if (!Directory.Exists(folderPath))
-                    Directory.CreateDirectory(folderPath);
+                    CreateDir(folderPath);
                 File.Move(from, to);
                 return true;
             }
@@ -27,6 +28,18 @@ namespace AutoRenamer
                 logger.Error(e);
                 return false;
             }
+        }
+
+        public static void CreateDir(string folderPath)
+        {
+            var parts = folderPath.Split('\\');
+            for (int i = 1; i <= parts.Length; i++)
+            {
+                var subPath = String.Join("\\", parts.Take(i));
+                if (!Directory.Exists(subPath))
+                    Directory.CreateDirectory(subPath);
+            }
+
         }
     }
 }

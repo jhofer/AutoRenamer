@@ -17,7 +17,8 @@ namespace AutoRenamer
         private readonly IFileBot seriesFileBot;
         private readonly ISettings settings;
 
-        private readonly List<string> irgnoredPaths = new List<string>(); 
+        private readonly List<string> irgnoredMoviePaths = new List<string>(); 
+        private readonly List<string> irgnoredSeriesPaths = new List<string>(); 
 
         public Renamer()
         {
@@ -39,11 +40,11 @@ namespace AutoRenamer
             var filePaths = fileSearcher.GetFilePaths(settings.SourcePath, settings.Extensions);
             var renamings = new List<Renaming>();
             cleaner.Cleanup();
-            Rename(filePaths, movieFileBot, renamings, settings.MoviePath);
+            Rename(filePaths, movieFileBot, renamings, settings.MoviePath,this.irgnoredMoviePaths);
             LogRenaming(renamings);
             cleaner.Cleanup();
           
-            Rename(filePaths, seriesFileBot, renamings, settings.SeriesPath);
+            Rename(filePaths, seriesFileBot, renamings, settings.SeriesPath, this.irgnoredSeriesPaths);
             LogRenaming(renamings);
             cleaner.Cleanup();
 
@@ -71,7 +72,7 @@ namespace AutoRenamer
         }
 
         private void Rename(List<string> filePaths, IFileBot fileBot,
-            List<Renaming> renamings, string dropfolder)
+            List<Renaming> renamings, string dropfolder, List<string> irgnoredPaths )
         {
             foreach (var filePath in filePaths)
             {
